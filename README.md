@@ -30,7 +30,6 @@ Features
 * All [PHP Debug Bar](http://phpdebugbar.com/) features + additional info about ZF2 application:
   * Log and debug directly to Debug Bar,
   * Check request variables ($_POST, $_GET, $_SERVER, $_COOKIE),
-  * Works with ajax requests!
   * Use timeline to see time between common events,
   * Catch exceptions,
   * Preview config and application config,
