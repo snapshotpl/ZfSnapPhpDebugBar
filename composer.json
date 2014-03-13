@@ -1,0 +1,31 @@
+{
+    "name": "snapshotpl/zf-snap-php-debug-bar",
+    "description": "PHP Debug Bar module for Zend Framework 2",
+    "keywords": [
+        "debugbar",
+        "zf2",
+        "zend framework",
+        "zend framework 2",
+        "debug",
+        "exception",
+        "log",
+        "logger"
+    ],
+    "authors": [
+        {
+            "name": "Witold Wasiczko",
+            "email": "witold@wasiczko.pl",
+            "homepage": "http://www.psd2html.pl/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "maximebf/debugbar": "1.*",
+        "zendframework/zendframework": "2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
