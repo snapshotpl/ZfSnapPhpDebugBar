@@ -50,8 +50,8 @@ class PhpDebugBarFactory implements FactoryInterface
         }
 
         // Storages
-        $storages = $debugBarConfig['storages'];
-        foreach ($storages as $storageName) {
+        $storageName = $debugBarConfig['storage'];
+        if ($storageName !== null) {
             $storage = $serviceLocator->get($storageName);
             $debugbar->setStorage($storage);
         }
