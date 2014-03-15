@@ -13,7 +13,7 @@ By [composer.json](https://getcomposer.org/)
 ```json
 {
     "require": {
-        "snapshotpl/zf-snap-php-debug-bar": "*"
+        "snapshotpl/zf-snap-php-debug-bar": "dev-master"
     }
 }
 ```
