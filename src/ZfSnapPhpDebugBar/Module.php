@@ -83,6 +83,11 @@ class Module implements ConfigProviderInterface, ServiceProviderInterface, Autol
         /* @var $application \Zend\Mvc\Application */
         $application = $e->getApplication();
         $serviceManager = $application->getServiceManager();
+        $config = $serviceManager->get('config');
+
+        if ($config['php-debug-bar']['enabled'] !== true) {
+            return;
+        }
         $applicationEventManager = $application->getEventManager();
         $viewEventManager = $serviceManager->get('View')->getEventManager();
         $viewRenderer = $serviceManager->get('ViewRenderer');
