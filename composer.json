@@ -24,6 +24,9 @@
         "zendframework/zendframework": "2.*"
     },
     "autoload": {
+        "psr-0": {
+            "ZfSnapPhpDebugBar": "src/"
+        },
         "classmap": [
             "./Module.php"
         ]
