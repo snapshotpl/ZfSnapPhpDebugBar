@@ -7,10 +7,6 @@ Version 0.9.0 Created by Witold Wasiczko
 
 ![PHP Debug Bar Messages](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar1.png)
 
-Usage
------
-Just install module via `composer.json` and use all features of [PHP Debug Bar](http://phpdebugbar.com/) project!
-
 How to install?
 ---------------
 By [composer.json](https://getcomposer.org/)
@@ -22,7 +18,9 @@ By [composer.json](https://getcomposer.org/)
 }
 ```
 
-run `composer update` and add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`
+run `composer update` and add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
+
+You need also copy all files from `vendor/maximebf/debugbar/src/DebugBar/Resources/` into `public/DebugBar/Resources/`.
 
 Features
 --------
