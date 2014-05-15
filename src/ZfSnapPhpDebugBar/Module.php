@@ -2,12 +2,13 @@
 
 namespace ZfSnapPhpDebugBar;
 
+use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\MessagesCollector;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\ModuleManager\Feature\ServiceProviderInterface;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface as Config;
+use Zend\ModuleManager\Feature\ServiceProviderInterface as Service;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloader;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface as ViewHelper;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
 use Zend\EventManager\EventInterface;
 use Zend\View\Model\ModelInterface;
 use Zend\View\ViewEvent;
@@ -18,7 +19,7 @@ use Zend\Mvc\MvcEvent;
  *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class Module implements ConfigProviderInterface, ServiceProviderInterface, AutoloaderProviderInterface, ViewHelperProviderInterface, BootstrapListenerInterface
+class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
 {
     /**
      * @var MessagesCollector
@@ -105,7 +106,7 @@ class Module implements ConfigProviderInterface, ServiceProviderInterface, Autol
 
         // Timeline
         $measureListener = function(EventInterface $e) use ($timeCollector, &$lastMeasure) {
-            if ($lastMeasure !== null) {
+            if ($lastMeasure !== null && $timeCollector->hasStartedMeasure($lastMeasure)) {
                 $timeCollector->stopMeasure($lastMeasure);
             }
             $lastMeasure = $e->getName();
@@ -139,7 +140,7 @@ class Module implements ConfigProviderInterface, ServiceProviderInterface, Autol
             $machedName = $route->getMatchedRouteName();
             $data = $route->getParams();
             $tabName = 'Route ' . $machedName;
-            $debugbar->addCollector(new \DebugBar\DataCollector\ConfigCollector($data, $tabName));
+            $debugbar->addCollector(new ConfigCollector($data, $tabName));
         });
     }
 
