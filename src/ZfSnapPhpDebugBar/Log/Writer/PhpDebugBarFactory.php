@@ -22,7 +22,9 @@ class PhpDebugBarFactory implements FactoryInterface
         /* @var $debugbar \DebugBar\DebugBar */
         $debugbar = $serviceLocator->get('debugbar');
 
-        return new PhpDebugBar($debugbar);
+        $messagesCollector = $debugbar['messages'];
+
+        return new PhpDebugBar($messagesCollector);
     }
 
 }

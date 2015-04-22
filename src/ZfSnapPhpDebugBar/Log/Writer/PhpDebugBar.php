@@ -2,7 +2,7 @@
 
 namespace ZfSnapPhpDebugBar\Log\Writer;
 
-use DebugBar\DebugBar;
+use DebugBar\DataCollector\MessagesCollector;
 use Zend\Log\Writer\AbstractWriter;
 
 /**
@@ -13,17 +13,17 @@ use Zend\Log\Writer\AbstractWriter;
 class PhpDebugBar extends AbstractWriter
 {
     /**
-     * @var DebugBar
+     * @var MessagesCollector
      */
-    protected $debugbar;
+    protected $messagesCollector;
 
     /**
      *
-     * @param DebugBar $debugbar
+     * @param MessagesCollector $debugbar
      */
-    public function __construct(DebugBar $debugbar)
+    public function __construct(MessagesCollector $debugbar)
     {
-        $this->debugbar = $debugbar;
+        $this->messagesCollector = $debugbar;
     }
 
     /**
@@ -32,7 +32,7 @@ class PhpDebugBar extends AbstractWriter
     protected function doWrite(array $event)
     {
         $priority = $this->priorityMap($event['priorityName']);
-        $this->debugbar['messages']->addMessage($event['message'], $priority);
+        $this->messagesCollector->addMessage($event['message'], $priority);
     }
 
     /**
