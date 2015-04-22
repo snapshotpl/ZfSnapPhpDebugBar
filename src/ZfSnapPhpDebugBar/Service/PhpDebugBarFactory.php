@@ -31,14 +31,15 @@ class PhpDebugBarFactory implements FactoryInterface
         $appConfig = $serviceLocator->get('ApplicationConfig');
         /* @var $debugbar DebugBar */
         $debugbar = $serviceLocator->get('DebugBar\DebugBar');
+        $dbServiceName = $debugBarConfig['zend-db-adapter-service-name'];
 
         // Config Collectors
         $debugbar->addCollector(new ConfigCollector($config));
         $debugbar->addCollector(new ConfigCollector($appConfig, 'ApplicationConfig'));
 
         // Db profiler
-        if ($serviceLocator->has('Zend\Db\Adapter\Adapter') && isset($config['db']['driver'])) {
-            $adapter = $serviceLocator->get('Zend\Db\Adapter\Adapter');
+        if ($serviceLocator->has($dbServiceName) && isset($config['db']['driver'])) {
+            $adapter = $serviceLocator->get($dbServiceName);
             $this->prepareDbAdapter($adapter, $debugbar);
         }
 
