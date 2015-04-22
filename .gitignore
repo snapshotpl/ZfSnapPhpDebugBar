@@ -1,0 +1,4 @@
+/nbproject/
+*.phar
+vendor/
+composer.lock

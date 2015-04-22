@@ -85,8 +85,10 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         $application = $e->getApplication();
         $serviceManager = $application->getServiceManager();
         $config = $serviceManager->get('config');
+        $request = $application->getRequest();
+        $debugbarConfig = $config['php-debug-bar'];
 
-        if ($config['php-debug-bar']['enabled'] !== true) {
+        if ($debugbarConfig['enabled'] !== true || !($request instanceof \Zend\Http\PhpEnvironment\Request)) {
             return;
         }
         $applicationEventManager = $application->getEventManager();
@@ -102,7 +104,9 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         require __DIR__ . '/Functions.php';
 
         // Auto enable assets
-        $viewRenderer->plugin('DebugBar')->appendAssets();
+        if ($debugbarConfig['auto-append-assets']) {
+            $viewRenderer->plugin('DebugBar')->appendAssets();
+        }
 
         // Timeline
         $measureListener = function(EventInterface $e) use ($timeCollector, &$lastMeasure) {

@@ -6,6 +6,8 @@ return array(
         // Enables/disables PHP Debug Bar
         'enabled' => true,
 
+        'auto-append-assets' => true,
+
         // ServiceManager keys to inject collectors
         // http://phpdebugbar.com/docs/data-collectors.html
         'collectors' => array(),
