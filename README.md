@@ -3,7 +3,7 @@ ZfSnapPhpDebugBar
 
 PHP Debug Bar module for Zend Framework 2
 
-Version 0.9.0 Created by Witold Wasiczko
+Created by Witold Wasiczko
 
 ![PHP Debug Bar Messages](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar1.png)
 
@@ -70,26 +70,7 @@ $debugbar['messages']->addMessage('ZfSnapPhpDebugBar is awesome!'));
 
 How to config?
 --------------
-Overwrite module config:
-```php
-<?php
-
-return array(
-    'php-debug-bar' => array(
-
-        // Enables/disables PHP Debug Bar
-        'enabled' => true,
-
-        // ServiceManager keys to inject collectors
-        // http://phpdebugbar.com/docs/data-collectors.html
-        'collectors' => array(),
-
-        // ServiceManager key to inject storage
-        // http://phpdebugbar.com/docs/storage.html
-        'storage' => null,
-    ),
-);
-```
+Look at `config/zfsnapphpdebugbar.config.php`
 
 ![PHP Debug Bar Timeline](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar2.png)
 
