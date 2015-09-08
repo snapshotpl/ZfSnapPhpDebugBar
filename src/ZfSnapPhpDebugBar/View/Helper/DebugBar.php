@@ -17,12 +17,15 @@ class DebugBar extends AbstractHelper
      */
     protected $renderer;
 
+    protected $customStyle;
+
     /**
      * @param JavascriptRenderer $renderer
      */
-    public function __construct(JavascriptRenderer $renderer)
+    public function __construct(JavascriptRenderer $renderer, $customStyle)
     {
         $this->renderer = $renderer;
+        $this->customStyle = $customStyle;
     }
 
     /**
@@ -59,6 +62,7 @@ class DebugBar extends AbstractHelper
         foreach ($styles as $style) {
             $headLink->appendStylesheet($style);
         }
+        $headLink->appendStylesheet($this->getView()->url('phpdebugbar-custom-resource', ['resource' => $this->customStyle]));
         return $headLink;
     }
 

@@ -4,15 +4,18 @@ namespace ZfSnapPhpDebugBar;
 
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\MessagesCollector;
+use Zend\EventManager\EventInterface;
+use Zend\Http\PhpEnvironment\Request;
+use Zend\Http\PhpEnvironment\Response;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloader;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
 use Zend\ModuleManager\Feature\ConfigProviderInterface as Config;
 use Zend\ModuleManager\Feature\ServiceProviderInterface as Service;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloader;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface as ViewHelper;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
-use Zend\EventManager\EventInterface;
+use Zend\Mvc\Application;
+use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
 use Zend\View\ViewEvent;
-use Zend\Mvc\MvcEvent;
 
 /**
  * Module of PHP Debug Bar
@@ -81,14 +84,14 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
      */
     public function onBootstrap(EventInterface $e)
     {
-        /* @var $application \Zend\Mvc\Application */
+        /* @var $application Application */
         $application = $e->getApplication();
         $serviceManager = $application->getServiceManager();
         $config = $serviceManager->get('config');
         $request = $application->getRequest();
         $debugbarConfig = $config['php-debug-bar'];
 
-        if ($debugbarConfig['enabled'] !== true || !($request instanceof \Zend\Http\PhpEnvironment\Request)) {
+        if ($debugbarConfig['enabled'] !== true || !($request instanceof Request)) {
             return;
         }
         $applicationEventManager = $application->getEventManager();
@@ -99,6 +102,22 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         $exceptionCollector = $debugbar['exceptions'];
         self::$messageCollector = $debugbar['messages'];
         $lastMeasure = null;
+
+        $applicationEventManager->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $event) use ($debugbar) {
+            $response = $event->getResponse();
+
+            if (!$response instanceof Response) {
+                return;
+            }
+            $contentTypeHeader = $response->getHeaders()->get('Content-type');
+
+            if ($contentTypeHeader && $contentTypeHeader->getFieldValue() !== 'text/html') {
+                return;
+            }
+
+            $renderer = $debugbar->getJavascriptRenderer();
+            $renderer->renderOnShutdown(false);
+        });
 
         // Enable messages function
         require __DIR__ . '/Functions.php';
@@ -141,10 +160,11 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         // Route
         $applicationEventManager->attach(MvcEvent::EVENT_ROUTE, function (EventInterface $e) use ($debugbar) {
             $route = $e->getRouteMatch();
-            $machedName = $route->getMatchedRouteName();
-            $data = $route->getParams();
-            $tabName = 'Route ' . $machedName;
-            $debugbar->addCollector(new ConfigCollector($data, $tabName));
+            $data = array(
+                'route_name' => $route->getMatchedRouteName(),
+                'params' => $route->getParams(),
+            );
+            $debugbar->addCollector(new ConfigCollector($data, 'Route'));
         });
     }
 

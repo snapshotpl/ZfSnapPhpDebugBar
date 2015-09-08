@@ -26,9 +26,11 @@ class DebugBarFactory implements FactoryInterface
 
         $renderer->setBaseUrl('/DebugBar/Resources/');
         $renderer->setBasePath('/DebugBar/Resources/');
-        $renderer->renderOnShutdown(false);
 
-        return new DebugBar($renderer);
+        $config = $sm->get('Config');
+        $customStyle = $config['php-debug-bar']['view']['custom-style-path'];
+
+        return new DebugBar($renderer, $customStyle);
     }
 
 }

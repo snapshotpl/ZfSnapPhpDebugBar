@@ -18,9 +18,7 @@ By [composer.json](https://getcomposer.org/)
 }
 ```
 
-run `composer update` and add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
-
-You need also copy all files from `vendor/maximebf/debugbar/src/DebugBar/Resources/` into `public/DebugBar/Resources/`.
+run `composer update` and add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`. That's all!
 
 Features
 --------
@@ -35,6 +33,7 @@ Features
   * Details about current route,
   * Memory usage,
   * Total request duration,
+  * Custom debug bar view,
   * and [more](http://phpdebugbar.com/)...!
 * Ready to use - just install via composer.json!
 * easy configurable via module config,
