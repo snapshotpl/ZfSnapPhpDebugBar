@@ -5,20 +5,48 @@ PHP Debug Bar module for Zend Framework 2
 
 Created by Witold Wasiczko
 
-![PHP Debug Bar Messages](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar1.png)
+![PHP Debug Bar Messages](docs/img/demo.gif)
 
-How to install?
----------------
-By [composer.json](https://getcomposer.org/)
-```json
-{
-    "require": {
-        "snapshotpl/zf-snap-php-debug-bar": "dev-master"
-    }
-}
+Installation
+------------
+
+The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
+
+Either run
+
+```
+php composer.phar require snapshotpl/zf-snap-php-debug-bar "dev-master"
 ```
 
-run `composer update` and add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`. That's all!
+or add
+
+```
+"snapshotpl/zf-snap-php-debug-bar": "dev-master"
+```
+
+to the require section of your `composer.json` file.
+
+Usage
+-----
+
+Add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
+
+```php
+[
+    ...
+
+    'modules' => [       
+        ...
+
+        'ZfSnapPhpDebugBar',
+
+        ...
+    ],
+
+    ...
+
+]
+```
 
 Features
 --------
@@ -38,8 +66,8 @@ Features
 * Ready to use - just install via composer.json!
 * easy configurable via module config,
 
-How to use `Message` tab?
------------------------------
+How to use `Message` tab
+------------------------
 
 By function:
 
@@ -68,14 +96,6 @@ $debugbar = $sm->get('debugbar');
 $debugbar['messages']->addMessage('ZfSnapPhpDebugBar is awesome!'));
 ```
 
-How to config?
---------------
+How to config
+-------------
 Look at `config/zfsnapphpdebugbar.config.php`
-
-![PHP Debug Bar Timeline](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar2.png)
-
-![PHP Debug Bar Request](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar3.png)
-
-![PHP Debug Bar Config](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar4.png)
-
-![PHP Debug Bar Route](http://www.psd2html.pl/public/ZfSnapPhpDebugBar/ZfSnapPhpDebugBar5.png)
