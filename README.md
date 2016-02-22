@@ -7,6 +7,24 @@ Created by Witold Wasiczko
 
 ![PHP Debug Bar Messages](docs/img/demo.gif)
 
+Features
+--------
+
+* All [PHP Debug Bar](http://phpdebugbar.com/) features + additional info about ZF2 application:
+  * Log and debug directly to Debug Bar,
+  * Check request variables ($_POST, $_GET, $_SERVER, $_COOKIE),
+  * Use timeline to see time between common events,
+  * Catch exceptions,
+  * Preview config and application config,
+  * Profile SQL queries,
+  * Details about current route,
+  * Memory usage,
+  * Total request duration,
+  * Custom debug bar view,
+  * and [more](http://phpdebugbar.com/)...!
+* Ready to use - just install via composer.json!
+* easy configurable via module config,
+
 Installation
 ------------
 
@@ -47,24 +65,6 @@ Add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
 
 ]
 ```
-
-Features
---------
-
-* All [PHP Debug Bar](http://phpdebugbar.com/) features + additional info about ZF2 application:
-  * Log and debug directly to Debug Bar,
-  * Check request variables ($_POST, $_GET, $_SERVER, $_COOKIE),
-  * Use timeline to see time between common events,
-  * Catch exceptions,
-  * Preview config and application config,
-  * Profile SQL queries,
-  * Details about current route,
-  * Memory usage,
-  * Total request duration,
-  * Custom debug bar view,
-  * and [more](http://phpdebugbar.com/)...!
-* Ready to use - just install via composer.json!
-* easy configurable via module config,
 
 How to use `Message` tab
 ------------------------
