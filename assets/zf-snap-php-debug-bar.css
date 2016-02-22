@@ -50,9 +50,19 @@ div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-toolbar input {
 a.phpdebugbar-restore-btn {
     width: 35px;
     height: 25px;
-    border-radius: 0 15px 0 0;
+    border-radius: 15px 0 0 0;
     border-top: 1px solid #ccc;
 }
 div.phpdebugbar-closed {
     border-top: 0;
+    right: 0;
+    left: auto;
+}
+.phpdebugbar-fa.phpdebugbar-fa-search::after {
+    content: " \203A";
+}
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td,
+div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params th {
+    text-align: left;
+    padding: 5px;
 }
