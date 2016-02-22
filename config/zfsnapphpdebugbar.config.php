@@ -3,7 +3,7 @@
 return array(
     'php-debug-bar' => array(
         'view' => array(
-            'custom-style-path' => 'zf-snap-php-debug-bar.css',
+            'custom-style-path' => 'zf-snap-php-debug-bar.min.css',
         ),
         // Enables/disables PHP Debug Bar
         'enabled' => true,
