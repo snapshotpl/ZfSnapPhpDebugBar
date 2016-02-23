@@ -38,7 +38,7 @@ class PhpDebugBarFactory implements FactoryInterface
         $debugbar->addCollector(new ConfigCollector($appConfig, 'ApplicationConfig'));
 
         // Db profiler
-        if ($serviceLocator->has($dbServiceName)) {
+        if ($serviceLocator->has($dbServiceName) && isset($config['db']['driver'])) {
             $adapter = $serviceLocator->get($dbServiceName);
             $this->prepareDbAdapter($adapter, $debugbar);
         }
