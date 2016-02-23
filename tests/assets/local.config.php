@@ -1,31 +1,10 @@
 <?php
 
-return array(
-    'controllers' => array(
-        'invokables' => array(
-            'ZfSnapPhpDebugBar\Tests\Functional\DummyController' => 'ZfSnapPhpDebugBar\Tests\Functional\DummyController',
-        ),
-    ),
-    'php-debug-bar' => array(
-        'auto-append-assets' => false,
-    ),
-    'router' => [
-        'routes' => [
-            'home' => [
-                'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => [
-                    'route' => '/',
-                    'defaults' => [
-                        'controller' => 'ZfSnapPhpDebugBar\Tests\Functional\DummyController',
-                        'action' => 'index',
-                    ],
-                ],
-            ],
-        ],
+return [
+    'db' => [
+        'driver' => 'pdo',
+        'dsn' => 'mysql:dbname=zf2-rzhavy;host=127.0.0.1;charset=utf8',
+        'username' => 'root',
+        'password' => '1234',
     ],
-    'service_manager' => array(
-        'factories' => array(
-            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
-        ),
-    ),
-);
+];

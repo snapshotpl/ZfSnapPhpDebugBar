@@ -2,18 +2,15 @@
 
 namespace ZfSnapPhpDebugBar\Tests\Functional;
 
+use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+
 /**
  * DebugBarTest
  *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class DebugBarTest extends \Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase
+class DebugBarTest extends AbstractHttpControllerTestCase
 {
-    protected function setUp()
-    {
-        $this->setApplicationConfig(include __DIR__.'/../assets/application.config.php');
-    }
-
     public function testDebugBarNotFailByDefault()
     {
         $this->dispatch('/');
@@ -22,5 +19,10 @@ class DebugBarTest extends \Zend\Test\PHPUnit\Controller\AbstractHttpControllerT
         $debugbar = $this->getApplicationServiceLocator()->get('debugbar');
 
         $this->assertInstanceOf('\DebugBar\DebugBar', $debugbar);
+    }
+    
+    protected function setUp()
+    {
+        $this->setApplicationConfig(include __DIR__ . '/../assets/application.config.php');
     }
 }
