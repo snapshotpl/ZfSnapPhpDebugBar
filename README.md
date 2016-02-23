@@ -33,7 +33,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require snapshotpl/zf-snap-php-debug-bar "dev-master"
+php composer.phar require --dev snapshotpl/zf-snap-php-debug-bar "dev-master"
 ```
 
 or add
@@ -42,7 +42,7 @@ or add
 "snapshotpl/zf-snap-php-debug-bar": "dev-master"
 ```
 
-to the require section of your `composer.json` file.
+to the `require-dev` section of your `composer.json` file.
 
 Usage
 -----
