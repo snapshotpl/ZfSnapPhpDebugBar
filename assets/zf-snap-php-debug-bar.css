@@ -51,7 +51,7 @@ a.phpdebugbar-restore-btn {
     width: 35px;
     height: 25px;
     border-radius: 15px 0 0 0;
-    border-top: 2px solid #ccc;
+    border-top: 1px solid #ccc;
 }
 div.phpdebugbar-closed {
     border-top: 0;
@@ -65,4 +65,7 @@ div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params td,
 div.phpdebugbar-widgets-sqlqueries table.phpdebugbar-widgets-params th {
     text-align: left;
     padding: 5px;
+}
+div.phpdebugbar-resize-handle {
+    border-bottom: 0;
 }
