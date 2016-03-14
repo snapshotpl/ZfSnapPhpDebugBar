@@ -22,7 +22,7 @@ Features
   * Total request duration,
   * Custom debug bar view,
   * and [more](http://phpdebugbar.com/)...!
-* Ready to use - just install via composer.json!
+* Ready to use - just install via `composer`!
 * easy configurable via module config,
 
 Installation
@@ -32,17 +32,19 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-```
+```bash
 php composer.phar require --dev snapshotpl/zf-snap-php-debug-bar "dev-master"
 ```
 
-or add
+or add to your `composer.json` file:
 
+```json
+{
+    "require-dev": {
+        "snapshotpl/zf-snap-php-debug-bar": "dev-master"
+    }
+}
 ```
-"snapshotpl/zf-snap-php-debug-bar": "dev-master"
-```
-
-to the `require-dev` section of your `composer.json` file.
 
 Usage
 -----
@@ -50,20 +52,11 @@ Usage
 Add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
 
 ```php
-[
-    ...
-
-    'modules' => [
-        ...
-
+return array(
+    'modules' => (
         'ZfSnapPhpDebugBar',
-
-        ...
-    ],
-
-    ...
-
-]
+    ),
+);
 ```
 
 How to use `Message` tab
@@ -98,4 +91,4 @@ $debugbar['messages']->addMessage('ZfSnapPhpDebugBar is awesome!'));
 
 How to config
 -------------
-Look at `config/zfsnapphpdebugbar.config.php`
+Look at `config/zfsnapphpdebugbar.config.php` file
