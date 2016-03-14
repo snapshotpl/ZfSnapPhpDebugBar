@@ -6,7 +6,7 @@ return array(
     ),
     'module_listener_options' => array(
         'config_glob_paths' => array(
-            __DIR__.'/local.config.php',
+            __DIR__ . '/{global,local}.config.php',
         ),
     ),
 );

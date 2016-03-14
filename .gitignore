@@ -1,4 +1,8 @@
-/nbproject/
+.DS_Store
 *.phar
-vendor/
-composer.lock
+/composer.lock
+/tests/phpunit.xml
+/tests/assets/local.config.php
+/nbproject
+/vendor
+/build
