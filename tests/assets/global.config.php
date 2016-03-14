@@ -9,20 +9,20 @@ return array(
     'php-debug-bar' => array(
         'auto-append-assets' => false,
     ),
-    'router' => [
-        'routes' => [
-            'home' => [
+    'router' => array(
+        'routes' => array(
+            'home' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => [
+                'options' => array(
                     'route' => '/',
-                    'defaults' => [
+                    'defaults' => array(
                         'controller' => 'ZfSnapPhpDebugBar\Tests\Functional\DummyController',
                         'action' => 'index',
-                    ],
-                ],
-            ],
-        ],
-    ],
+                    ),
+                ),
+            ),
+        ),
+    ),
     'service_manager' => array(
         'factories' => array(
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
