@@ -1,4 +1,4 @@
-ZfSnapPhpDebugBar
+ZfSnapPhpDebugBar [![Build Status](https://travis-ci.org/snapshotpl/ZfSnapPhpDebugBar.svg?branch=master)](https://travis-ci.org/snapshotpl/ZfSnapPhpDebugBar)
 =================
 
 PHP Debug Bar module for Zend Framework 2
@@ -53,7 +53,7 @@ Add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
 [
     ...
 
-    'modules' => [       
+    'modules' => [
         ...
 
         'ZfSnapPhpDebugBar',
