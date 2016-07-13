@@ -21,8 +21,8 @@ return array(
         'storage' => null,
     ),
     'controllers' => array(
-        'invokables' => array(
-            'ZfSnapPhpDebugBar\Controller\Resources' => 'ZfSnapPhpDebugBar\Controller\Resources',
+        'factories' => array(
+            'ZfSnapPhpDebugBar\Controller\Resources' => 'ZfSnapPhpDebugBar\Controller\ResourcesFactory',
         ),
     ),
     'router' => array(
