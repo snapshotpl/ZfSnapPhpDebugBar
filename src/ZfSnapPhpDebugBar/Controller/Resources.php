@@ -3,6 +3,7 @@
 namespace ZfSnapPhpDebugBar\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Resources
@@ -11,6 +12,12 @@ use Zend\Mvc\Controller\AbstractActionController;
  */
 class Resources extends AbstractActionController
 {
+    /**
+     * @var ServiceLocatorInterface
+     * @since 0.11.2
+     */
+    protected $serviceLocator;
+
     protected $extensionToContentTypeMap = array(
         'css' => 'text/css; charset=UTF-8',
         'js' => 'text/javascript; charset=UTF-8',
@@ -53,5 +60,25 @@ class Resources extends AbstractActionController
             return $this->extensionToContentTypeMap[$extension];
         }
         return 'text/html; charset=UTF-8';
+    }
+
+    /**
+     * @param ServiceLocatorInterface $serviceLocator
+     * @return static
+     * @since 0.11.2
+     */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+        return $this;
+    }
+
+    /**
+     * @return ServiceLocatorInterface
+     * @since 0.11.2
+     */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
     }
 }
