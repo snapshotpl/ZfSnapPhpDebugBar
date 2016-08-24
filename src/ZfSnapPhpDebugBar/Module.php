@@ -97,7 +97,7 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         $applicationEventManager = $application->getEventManager();
         $viewEventManager = $serviceManager->get('View')->getEventManager();
         $viewRenderer = $serviceManager->get('ViewRenderer');
-        $debugbar = $serviceManager->get('debugbar');
+        $debugbar = $serviceManager->get('DebugBar');
         $timeCollector = $debugbar['time'];
         $exceptionCollector = $debugbar['exceptions'];
         self::$messageCollector = $debugbar['messages'];
@@ -124,7 +124,7 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
 
         // Auto enable assets
         if ($debugbarConfig['auto-append-assets']) {
-            $viewRenderer->plugin('DebugBar')->appendAssets();
+            $viewRenderer->plugin('debugbar')->appendAssets();
         }
 
         // Timeline

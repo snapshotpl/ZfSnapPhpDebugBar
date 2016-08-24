@@ -12,7 +12,7 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'literal',
                 'options' => array(
                     'route' => '/',
                     'defaults' => array(

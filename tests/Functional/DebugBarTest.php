@@ -16,9 +16,9 @@ class DebugBarTest extends AbstractHttpControllerTestCase
         $this->dispatch('/');
 
         $this->assertResponseStatusCode(200);
-        $debugbar = $this->getApplicationServiceLocator()->get('debugbar');
+        $debugbar = $this->getApplicationServiceLocator()->get('DebugBar');
 
-        $this->assertInstanceOf('\DebugBar\DebugBar', $debugbar);
+        $this->assertInstanceOf('DebugBar\DebugBar', $debugbar);
     }
     
     protected function setUp()

@@ -7,9 +7,10 @@ use DebugBar\DebugBar;
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use DebugBar\DataCollector\PDO\PDOCollector;
 use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface as Locator;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * PhpDebugBarFactory
@@ -20,17 +21,15 @@ class PhpDebugBarFactory implements FactoryInterface
 {
 
     /**
-     *
-     * @param Locator $serviceLocator
-     * @return DebugBar
+     * {@inehritdoc}
      */
-    public function createService(Locator $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('config');
+        $config = $container->get('config');
         $debugBarConfig = $config['php-debug-bar'];
-        $appConfig = $serviceLocator->get('ApplicationConfig');
+        $appConfig = $container->get('ApplicationConfig');
         /* @var $debugbar DebugBar */
-        $debugbar = $serviceLocator->get('DebugBar\DebugBar');
+        $debugbar = $container->get('DebugBar\DebugBar');
         $dbServiceName = $debugBarConfig['zend-db-adapter-service-name'];
 
         // Config Collectors
@@ -38,25 +37,33 @@ class PhpDebugBarFactory implements FactoryInterface
         $debugbar->addCollector(new ConfigCollector($appConfig, 'ApplicationConfig'));
 
         // Db profiler
-        if ($serviceLocator->has($dbServiceName) && isset($config['db']['driver'])) {
-            $adapter = $serviceLocator->get($dbServiceName);
+        if ($container->has($dbServiceName) && isset($config['db']['driver'])) {
+            $adapter = $container->get($dbServiceName);
             $this->prepareDbAdapter($adapter, $debugbar);
         }
 
         // Collectors
         $collectors = $debugBarConfig['collectors'];
         foreach ($collectors as $collectorName) {
-            $collector = $serviceLocator->get($collectorName);
+            $collector = $container->get($collectorName);
             $debugbar->addCollector($collector);
         }
 
         // Storages
         $storageName = $debugBarConfig['storage'];
         if ($storageName !== null) {
-            $storage = $serviceLocator->get($storageName);
+            $storage = $container->get($storageName);
             $debugbar->setStorage($storage);
         }
         return $debugbar;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, 'DebugBar\DebugBar');
     }
 
     /**
