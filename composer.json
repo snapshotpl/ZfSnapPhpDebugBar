@@ -21,20 +21,20 @@
     "require": {
         "php": ">=5.3.3",
         "maximebf/debugbar": "1.*",
-        "zendframework/zend-mvc": "2.*",
-        "zendframework/zend-log": "2.*",
-        "zendframework/zend-servicemanager": "2.*",
-        "zendframework/zend-view": "2.*",
-        "zendframework/zend-eventmanager": "2.*",
-        "zendframework/zend-http": "2.*",
-        "zendframework/zend-modulemanager": "2.*"
+        "zendframework/zend-mvc": "*",
+        "zendframework/zend-log": "*",
+        "zendframework/zend-servicemanager": "*",
+        "zendframework/zend-view": "*",
+        "zendframework/zend-eventmanager": "*",
+        "zendframework/zend-http": "*",
+        "zendframework/zend-modulemanager": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "zendframework/zend-test": "2.*",
-        "zendframework/zend-config": "2.*",
-        "zendframework/zend-serializer": "2.*",
-        "zendframework/zend-i18n": "2.*"
+        "zendframework/zend-test": "*",
+        "zendframework/zend-config": "*",
+        "zendframework/zend-serializer": "*",
+        "zendframework/zend-i18n": "*"
     },
     "autoload": {
         "psr-0": {
