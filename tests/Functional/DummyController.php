@@ -10,8 +10,16 @@ use Zend\View\Model\ViewModel;
  */
 class DummyController extends AbstractActionController
 {
+
+    const EXCEPTION_MESSAGE = 'ExceptionMessage';
+
     public function indexAction()
     {
-        return (new ViewModel())->setTerminal(true)->setTemplate('dummy/index');
+        return (new ViewModel())->setTemplate('dummy/index');
+    }
+
+    public function errorAction()
+    {
+        throw new \Exception(self::EXCEPTION_MESSAGE);
     }
 }

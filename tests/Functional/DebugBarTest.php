@@ -9,34 +9,64 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
  */
 class DebugBarTest extends AbstractHttpControllerTestCase
 {
+
     protected function setUp()
     {
         $this->setApplicationConfig(include __DIR__ . '/../assets/application.config.php');
     }
-    
+
     public function testNotFailPage()
     {
         $this->dispatch('/');
 
         $this->assertResponseStatusCode(200);
     }
-    
+
     public function testContainsScript()
     {
         $this->dispatch('/');
 
-        $this->assertContains('var phpdebugbar = new PhpDebugBar.DebugBar();', $this->getResponse()->getContent());
+        $this->assertResponseContains('var phpdebugbar = new PhpDebugBar.DebugBar();');
     }
-    
+
+    public function testContainsRouteData()
+    {
+        $this->dispatch('/');
+
+        $this->assertResponseContains('home');
+        $this->assertResponseContains('DummyController');
+    }
+
+    public function testContainsMeasure()
+    {
+        $this->dispatch('/');
+
+        $this->assertResponseContains('(dummy\/index)');
+    }
+
     public function testContainLoggedMessage()
     {
         // Only for initialize module
         $this->getApplicationServiceLocator()->get('DebugBar');
-        
+
         debugbar_log('fooboomessage');
-        
+
         $this->dispatch('/');
 
-        $this->assertContains('fooboomessage', $this->getResponse()->getContent());
+        $this->assertResponseContains('fooboomessage');
+    }
+
+    public function testContainExceptionMessage()
+    {
+        $this->dispatch('/error');
+
+        $this->assertResponseStatusCode(500);
+
+        $this->assertResponseContains(DummyController::EXCEPTION_MESSAGE);
+    }
+
+    private function assertResponseContains($string)
+    {
+        $this->assertContains($string, $this->getResponse()->getContent());
     }
 }

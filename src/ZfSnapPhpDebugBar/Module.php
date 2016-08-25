@@ -2,24 +2,23 @@
 
 namespace ZfSnapPhpDebugBar;
 
-use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\MessagesCollector;
-use Exception;
+use RuntimeException;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Request;
-use Zend\Http\PhpEnvironment\Response;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use Zend\View\Model\ModelInterface;
-use Zend\View\ViewEvent;
+use ZfSnapPhpDebugBar\Listener\MeasureListener;
+use ZfSnapPhpDebugBar\Listener\RenderOnShutdownListener;
+use ZfSnapPhpDebugBar\Listener\RouteListener;
 
 /**
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
 final class Module implements ConfigProviderInterface, Bootstrap
 {
+
     /**
      * @var MessagesCollector
      */
@@ -47,32 +46,14 @@ final class Module implements ConfigProviderInterface, Bootstrap
         }
         $applicationEventManager = $application->getEventManager();
         $viewEventManager = $serviceManager->get('View')->getEventManager();
-        $debugbarViewHelper = $serviceManager->get('ViewHelperManager')->get('debugbar');
         $viewRenderer = $serviceManager->get('ViewRenderer');
         $debugbar = $serviceManager->get('DebugBar');
         $timeCollector = $debugbar['time'];
-        $exceptionCollector = $debugbar['exceptions'];
+        $exceptionsCollector = $debugbar['exceptions'];
         self::$messageCollector = $debugbar['messages'];
-        $lastMeasure = null;
         $rendedOnShutdown = $debugbarConfig['render-on-shutdown'];
 
-        $applicationEventManager->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $event) use ($debugbar, $rendedOnShutdown, $debugbarViewHelper) {
-            $response = $event->getResponse();
-
-            if (!$response instanceof Response) {
-                return;
-            }
-            $contentTypeHeader = $response->getHeaders()->get('Content-type');
-
-            if ($contentTypeHeader && $contentTypeHeader->getFieldValue() !== 'text/html') {
-                return;
-            }
-            
-            if ($rendedOnShutdown) {
-                $renderer = $debugbar->getJavascriptRenderer();
-                $renderer->renderOnShutdown(false);
-            }
-        });
+        (new RenderOnShutdownListener($debugbar->getJavascriptRenderer(), $rendedOnShutdown))->attach($applicationEventManager);
 
         // Auto enable assets
         if ($debugbarConfig['auto-append-assets']) {
@@ -80,44 +61,17 @@ final class Module implements ConfigProviderInterface, Bootstrap
         }
 
         // Timeline
-        $measureListener = function(EventInterface $event) use ($timeCollector, &$lastMeasure) {
-            if ($lastMeasure !== null && $timeCollector->hasStartedMeasure($lastMeasure)) {
-                $timeCollector->stopMeasure($lastMeasure);
-            }
-            $lastMeasure = $event->getName();
-
-            if ($event instanceof ViewEvent) {
-                $model = $event->getParam('model');
-
-                if ($model instanceof ModelInterface) {
-                    $lastMeasure .= ' (' . $model->getTemplate() . ')';
-                }
-            }
-            $timeCollector->startMeasure($lastMeasure, $lastMeasure);
-        };
-        $applicationEventManager->attach('*', $measureListener);
-        $viewEventManager->attach('*', $measureListener);
+        $measureListener = new MeasureListener($timeCollector);
+        $measureListener->attach($applicationEventManager);
+        $measureListener->attach($viewEventManager);
 
         // Exceptions
-        $exceptionListener = function (EventInterface $event) use ($exceptionCollector) {
-            $exception = $event->getParam('exception');
-
-            if ($exception instanceof Exception) {
-                $exceptionCollector->addException($exception);
-            }
-        };
-        $applicationEventManager->attach('*', $exceptionListener);
-        $viewEventManager->attach('*', $exceptionListener);
+        $exceptionListener = new Listener\ExceptionListener($exceptionsCollector);
+        $exceptionListener->attach($applicationEventManager);
+        $exceptionListener->attach($viewEventManager);
 
         // Route
-        $applicationEventManager->attach(MvcEvent::EVENT_ROUTE, function (EventInterface $event) use ($debugbar) {
-            $route = $event->getRouteMatch();
-            $data = [
-                'route_name' => $route->getMatchedRouteName(),
-                'params' => $route->getParams(),
-            ];
-            $debugbar->addCollector(new ConfigCollector($data, 'Route'));
-        });
+        (new RouteListener($debugbar))->attach($applicationEventManager);
     }
 
     /**
@@ -127,9 +81,8 @@ final class Module implements ConfigProviderInterface, Bootstrap
     public static function log($message, $type = 'debug')
     {
         if (!self::$messageCollector instanceof MessagesCollector) {
-            throw new Exception('Unknown type of MessageCollector');
+            throw new RuntimeException(sprintf('Invalid %s', MessagesCollector::class));
         }
         self::$messageCollector->addMessage($message, $type);
     }
-
 }

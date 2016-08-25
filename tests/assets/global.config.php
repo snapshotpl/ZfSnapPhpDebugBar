@@ -1,5 +1,4 @@
 <?php
-
 return [
     'controllers' => [
         'invokables' => [
@@ -22,6 +21,16 @@ return [
                     ],
                 ],
             ],
+            'error' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/error',
+                    'defaults' => [
+                        'controller' => ZfSnapPhpDebugBar\Tests\Functional\DummyController::class,
+                        'action' => 'error',
+                    ],
+                ],
+            ],
         ],
     ],
     'service_manager' => [
@@ -34,6 +43,7 @@ return [
         'display_exceptions' => true,
         'doctype' => 'HTML5',
         'template_map' => [
+            'layout/layout' => __DIR__ . '/views/layout.phtml',
             'dummy/index' => __DIR__ . '/views/view.phtml',
             'error' => __DIR__ . '/views/view.phtml',
         ],

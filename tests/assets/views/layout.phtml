@@ -1,0 +1,21 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?= $this->headTitle('ZfSnapPhpDebugBar') ?>
+
+        <?= $this->headMeta() ?>
+
+        <!-- Le styles -->
+        <?= $this->headLink() ?>
+
+        <!-- Scripts -->
+        <?= $this->headScript() ?>
+    </head>
+
+    <body>
+        <?php echo $this->content; ?>
+        <?= $this->DebugBar()->render() ?>
+    </body>
+</html>
