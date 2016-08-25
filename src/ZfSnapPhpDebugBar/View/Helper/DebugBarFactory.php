@@ -2,24 +2,23 @@
 
 namespace ZfSnapPhpDebugBar\View\Helper;
 
+use DebugBar\DebugBar;
+use ZfSnapPhpDebugBar\View\Helper\DebugBar as DebugBarHelper;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Interop\Container\ContainerInterface;
 
 /**
- * DebugBarFactory
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class DebugBarFactory implements FactoryInterface
+final class DebugBarFactory implements FactoryInterface
 {
-
     /**
      * {@inheritdoc}
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /* @var $debugbar \DebugBar\DebugBar */
+        /* @var $debugbar DebugBar */
         $debugbar = $container->get('DebugBar');
         $renderer = $debugbar->getJavascriptRenderer();
 
@@ -29,7 +28,7 @@ class DebugBarFactory implements FactoryInterface
         $config = $container->get('Config');
         $customStyle = $config['php-debug-bar']['view']['custom-style-path'];
 
-        return new DebugBar($renderer, $customStyle);
+        return new DebugBarHelper($renderer, $customStyle);
     }
 
     /**
@@ -37,7 +36,7 @@ class DebugBarFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this($serviceLocator->getServiceLocator(), 'ZfSnapPhpDebugBar\View\Helper\DebugBar');
+        return $this($serviceLocator->getServiceLocator(), DebugBar::class);
     }
 
 }

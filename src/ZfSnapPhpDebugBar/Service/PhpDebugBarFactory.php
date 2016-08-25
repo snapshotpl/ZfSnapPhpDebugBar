@@ -3,23 +3,20 @@
 namespace ZfSnapPhpDebugBar\Service;
 
 use DebugBar\DataCollector\ConfigCollector;
-use DebugBar\DebugBar;
-use DebugBar\DataCollector\PDO\TraceablePDO;
 use DebugBar\DataCollector\PDO\PDOCollector;
-use Zend\ServiceManager\FactoryInterface;
+use DebugBar\DataCollector\PDO\TraceablePDO;
+use DebugBar\DebugBar;
+use Interop\Container\ContainerInterface;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\Pdo\Pdo;
-use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * PhpDebugBarFactory
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class PhpDebugBarFactory implements FactoryInterface
+final class PhpDebugBarFactory implements FactoryInterface
 {
-
     /**
      * {@inehritdoc}
      */
@@ -29,7 +26,7 @@ class PhpDebugBarFactory implements FactoryInterface
         $debugBarConfig = $config['php-debug-bar'];
         $appConfig = $container->get('ApplicationConfig');
         /* @var $debugbar DebugBar */
-        $debugbar = $container->get('DebugBar\DebugBar');
+        $debugbar = $container->get(DebugBar::class);
         $dbServiceName = $debugBarConfig['zend-db-adapter-service-name'];
 
         // Config Collectors
@@ -63,7 +60,7 @@ class PhpDebugBarFactory implements FactoryInterface
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        return $this($serviceLocator, 'DebugBar\DebugBar');
+        return $this($serviceLocator, DebugBar::class);
     }
 
     /**

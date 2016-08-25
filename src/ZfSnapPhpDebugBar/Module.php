@@ -7,22 +7,17 @@ use DebugBar\DataCollector\MessagesCollector;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
-use Zend\ModuleManager\Feature\AutoloaderProviderInterface as Autoloader;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
-use Zend\ModuleManager\Feature\ConfigProviderInterface as Config;
-use Zend\ModuleManager\Feature\ServiceProviderInterface as Service;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface as ViewHelper;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
 use Zend\View\ViewEvent;
 
 /**
- * Module of PHP Debug Bar
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
+final class Module implements ConfigProviderInterface, Bootstrap
 {
     /**
      * @var MessagesCollector
@@ -37,55 +32,10 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         return include __DIR__ . '/../../config/zfsnapphpdebugbar.config.php';
     }
 
-    /**
-     * @return array
-     */
-    public function getServiceConfig()
-    {
-        return array(
-            'invokables' => array(
-                'DebugBar\DebugBar' => 'DebugBar\StandardDebugBar',
-            ),
-            'factories' => array(
-                'DebugBar' => 'ZfSnapPhpDebugBar\Service\PhpDebugBarFactory',
-                'ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar' => 'ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory',
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/../' . __NAMESPACE__,
-                ),
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getViewHelperConfig()
-    {
-        return array(
-            'factories' => array(
-                'debugbar' => 'ZfSnapPhpDebugBar\View\Helper\DebugBarFactory',
-            ),
-        );
-    }
-
-    /**
-     * @param EventInterface $e
-     */
-    public function onBootstrap(EventInterface $e)
+    public function onBootstrap(EventInterface $event)
     {
         /* @var $application Application */
-        $application = $e->getApplication();
+        $application = $event->getApplication();
         $serviceManager = $application->getServiceManager();
         $config = $serviceManager->get('config');
         $request = $application->getRequest();
@@ -96,14 +46,16 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         }
         $applicationEventManager = $application->getEventManager();
         $viewEventManager = $serviceManager->get('View')->getEventManager();
+        $debugbarViewHelper = $serviceManager->get('ViewHelperManager')->get('debugbar');
         $viewRenderer = $serviceManager->get('ViewRenderer');
         $debugbar = $serviceManager->get('DebugBar');
         $timeCollector = $debugbar['time'];
         $exceptionCollector = $debugbar['exceptions'];
         self::$messageCollector = $debugbar['messages'];
         $lastMeasure = null;
+        $rendedOnShutdown = $debugbarConfig['render-on-shutdown'];
 
-        $applicationEventManager->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $event) use ($debugbar) {
+        $applicationEventManager->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $event) use ($debugbar, $rendedOnShutdown, $debugbarViewHelper) {
             $response = $event->getResponse();
 
             if (!$response instanceof Response) {
@@ -114,9 +66,11 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
             if ($contentTypeHeader && $contentTypeHeader->getFieldValue() !== 'text/html') {
                 return;
             }
-
-            $renderer = $debugbar->getJavascriptRenderer();
-            $renderer->renderOnShutdown(false);
+            
+            if ($rendedOnShutdown) {
+                $renderer = $debugbar->getJavascriptRenderer();
+                $renderer->renderOnShutdown(false);
+            }
         });
 
         // Enable messages function
@@ -128,14 +82,14 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         }
 
         // Timeline
-        $measureListener = function(EventInterface $e) use ($timeCollector, &$lastMeasure) {
+        $measureListener = function(EventInterface $event) use ($timeCollector, &$lastMeasure) {
             if ($lastMeasure !== null && $timeCollector->hasStartedMeasure($lastMeasure)) {
                 $timeCollector->stopMeasure($lastMeasure);
             }
-            $lastMeasure = $e->getName();
+            $lastMeasure = $event->getName();
 
-            if ($e instanceof ViewEvent) {
-                $model = $e->getParam('model');
+            if ($event instanceof ViewEvent) {
+                $model = $event->getParam('model');
 
                 if ($model instanceof ModelInterface) {
                     $lastMeasure .= ' (' . $model->getTemplate() . ')';
@@ -158,12 +112,12 @@ class Module implements Config, Service, Autoloader, ViewHelper, Bootstrap
         $viewEventManager->attach('*', $exceptionListener);
 
         // Route
-        $applicationEventManager->attach(MvcEvent::EVENT_ROUTE, function (EventInterface $e) use ($debugbar) {
-            $route = $e->getRouteMatch();
-            $data = array(
+        $applicationEventManager->attach(MvcEvent::EVENT_ROUTE, function (EventInterface $event) use ($debugbar) {
+            $route = $event->getRouteMatch();
+            $data = [
                 'route_name' => $route->getMatchedRouteName(),
                 'params' => $route->getParams(),
-            );
+            ];
             $debugbar->addCollector(new ConfigCollector($data, 'Route'));
         });
     }
