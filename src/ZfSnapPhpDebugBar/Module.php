@@ -4,6 +4,7 @@ namespace ZfSnapPhpDebugBar;
 
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\MessagesCollector;
+use Exception;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;
@@ -73,9 +74,6 @@ final class Module implements ConfigProviderInterface, Bootstrap
             }
         });
 
-        // Enable messages function
-        require __DIR__ . '/Functions.php';
-
         // Auto enable assets
         if ($debugbarConfig['auto-append-assets']) {
             $viewRenderer->plugin('debugbar')->appendAssets();
@@ -104,7 +102,7 @@ final class Module implements ConfigProviderInterface, Bootstrap
         $exceptionListener = function (EventInterface $event) use ($exceptionCollector) {
             $exception = $event->getParam('exception');
 
-            if ($exception instanceof \Exception) {
+            if ($exception instanceof Exception) {
                 $exceptionCollector->addException($exception);
             }
         };
@@ -128,11 +126,10 @@ final class Module implements ConfigProviderInterface, Bootstrap
      */
     public static function log($message, $type = 'debug')
     {
-        if (self::$messageCollector instanceof MessagesCollector) {
-            self::$messageCollector->addMessage($message, $type);
-        } else {
+        if (!self::$messageCollector instanceof MessagesCollector) {
             throw new Exception('Unknown type of MessageCollector');
         }
+        self::$messageCollector->addMessage($message, $type);
     }
 
 }

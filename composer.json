@@ -43,6 +43,9 @@
         },
         "classmap": [
             "./Module.php"
+        ],
+        "files": [
+            "src/ZfSnapPhpDebugBar/Functions.php"
         ]
     },
     "autoload-dev": {

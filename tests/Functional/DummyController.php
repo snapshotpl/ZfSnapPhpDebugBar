@@ -12,8 +12,6 @@ class DummyController extends AbstractActionController
 {
     public function indexAction()
     {
-        $model = new ViewModel();
-        $model->setTerminal(true);
-        return $model->setTemplate('dummy/index');
+        return (new ViewModel())->setTerminal(true)->setTemplate('dummy/index');
     }
 }

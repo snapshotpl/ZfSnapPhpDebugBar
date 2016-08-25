@@ -14,11 +14,29 @@ class DebugBarTest extends AbstractHttpControllerTestCase
         $this->setApplicationConfig(include __DIR__ . '/../assets/application.config.php');
     }
     
-    public function testDebugBarNotFailByDefault()
+    public function testNotFailPage()
     {
         $this->dispatch('/');
 
         $this->assertResponseStatusCode(200);
+    }
+    
+    public function testContainsScript()
+    {
+        $this->dispatch('/');
+
         $this->assertContains('var phpdebugbar = new PhpDebugBar.DebugBar();', $this->getResponse()->getContent());
+    }
+    
+    public function testContainLoggedMessage()
+    {
+        // Only for initialize module
+        $this->getApplicationServiceLocator()->get('DebugBar');
+        
+        debugbar_log('fooboomessage');
+        
+        $this->dispatch('/');
+
+        $this->assertContains('fooboomessage', $this->getResponse()->getContent());
     }
 }
