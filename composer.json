@@ -37,6 +37,9 @@
         "zendframework/zend-i18n": "^2.4",
         "zendframework/zend-db": "^2.4"
     },
+    "suggest": {
+        "doctrine/doctrine-orm-module": "if you want to use Doctrine debug collector"
+    },
     "autoload": {
         "psr-0": {
             "ZfSnapPhpDebugBar": "src/"
