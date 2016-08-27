@@ -8,11 +8,6 @@ use Doctrine\DBAL\Logging\DebugStack;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-/**
- * Factory of `DoctrineCollector`.
- * @author Vasilij Belosludcev <https://github.com/bupy7>
- * @see DoctrineCollector
- */
 class DoctrineCollectorFactory implements FactoryInterface
 {
     /**
@@ -21,10 +16,8 @@ class DoctrineCollectorFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $debugStack = new DebugStack;
-        $entityManager = $container->get('Doctrine\ORM\EntityManager');
-        $entityManager->getConnection()->getConfiguration()->setSQLLogger($debugStack);
-        $collector = new DoctrineCollector($debugStack);
-        return $collector;
+        $container->get('doctrine.configuration.orm_default')->setSQLLogger($debugStack);
+        return new DoctrineCollector($debugStack);
     }
 
     /**

@@ -1,8 +1,5 @@
 <?php
 
-use DebugBar\Bridge\DoctrineCollector;
-use ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory;
-
 return [
     'php-debug-bar' => [
         'view' => [
@@ -26,7 +23,7 @@ return [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
             ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
-            DoctrineCollector::class => DoctrineCollectorFactory::class,
+            DebugBar\Bridge\DoctrineCollector::class => ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory::class,
         ],
         'aliases' => [
             'DebugBar' => 'debugbar',
