@@ -24,10 +24,6 @@ return [
             'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
             ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
         ],
-        'aliases' => [
-            'DebugBar' => 'debugbar',
-            'Debugbar' => 'debugbar',
-        ],
     ],
     'controllers' => [
         'invokables' => [
@@ -37,10 +33,6 @@ return [
     'view_helpers' => [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\View\Helper\DebugBarFactory::class,
-        ],
-        'aliases' => [
-            'DebugBar' => 'debugbar',
-            'Debugbar' => 'debugbar',
         ],
     ],
     'router' => [

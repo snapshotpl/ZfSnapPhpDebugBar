@@ -38,11 +38,11 @@
         "zendframework/zend-db": "^2.4"
     },
     "autoload": {
-        "psr-0": {
-            "ZfSnapPhpDebugBar": "src/"
+        "psr-4": {
+            "ZfSnapPhpDebugBar\\": "src/"
         },
         "files": [
-            "src/ZfSnapPhpDebugBar/Functions.php"
+            "src/Functions.php"
         ]
     },
     "autoload-dev": {

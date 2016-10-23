@@ -9,6 +9,7 @@ use Zend\Http\PhpEnvironment\Request;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface as Bootstrap;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Application;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use ZfSnapPhpDebugBar\Listener\MeasureListener;
 use ZfSnapPhpDebugBar\Listener\RenderOnShutdownListener;
 use ZfSnapPhpDebugBar\Listener\RouteListener;
@@ -29,7 +30,13 @@ final class Module implements ConfigProviderInterface, Bootstrap
      */
     public function getConfig()
     {
-        return include __DIR__ . '/../../config/zfsnapphpdebugbar.config.php';
+        $baseConfig = include __DIR__ . '/../config/zfsnapphpdebugbar.config.php';
+
+        if (!class_exists(ServiceLocatorAwareInterface::class)) {
+            $baseConfig += include __DIR__ . '/../config/aliases.config.php';
+        }
+
+        return $baseConfig;
     }
 
     public function onBootstrap(EventInterface $event)
