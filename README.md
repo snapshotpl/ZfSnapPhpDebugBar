@@ -1,7 +1,7 @@
 ZfSnapPhpDebugBar [![Build Status](https://travis-ci.org/snapshotpl/ZfSnapPhpDebugBar.svg?branch=master)](https://travis-ci.org/snapshotpl/ZfSnapPhpDebugBar)
 =================
 
-PHP Debug Bar module for Zend Framework 2
+PHP Debug Bar module for Zend Framework 2 & 3
 
 Created by Witold Wasiczko
 
@@ -10,7 +10,7 @@ Created by Witold Wasiczko
 Features
 --------
 
-* All [PHP Debug Bar](http://phpdebugbar.com/) features + additional info about ZF2 application:
+* All [PHP Debug Bar](http://phpdebugbar.com/) features + additional info about Zend Framework application:
   * Log and debug directly to Debug Bar,
   * Check request variables ($_POST, $_GET, $_SERVER, $_COOKIE),
   * Use timeline to see time between common events,
@@ -33,30 +33,20 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```bash
-php composer.phar require --dev snapshotpl/zf-snap-php-debug-bar "dev-master"
-```
-
-or add to your `composer.json` file:
-
-```json
-{
-    "require-dev": {
-        "snapshotpl/zf-snap-php-debug-bar": "dev-master"
-    }
-}
+php composer require --dev snapshotpl/zf-snap-php-debug-bar
 ```
 
 Usage
 -----
 
-Add module `ZfSnapPhpDebugBar` to ZF2 `application.config.php`.
+Add module `ZfSnapPhpDebugBar` to `application.config.php`.
 
 ```php
-return array(
-    'modules' => (
+return [
+    'modules' => [
         'ZfSnapPhpDebugBar',
-    ),
-);
+    ],
+];
 ```
 
 How to use `Message` tab
@@ -71,14 +61,14 @@ debugbar_log('ZfSnapPhpDebugBar is awesome!');
 By static method:
 
 ```php
-\ZfSnapPhpDebugBar\Module::log('ZfSnapPhpDebugBar is awesome!');
+ZfSnapPhpDebugBar\Module::log('ZfSnapPhpDebugBar is awesome!');
 ```
 
 By `Zend\Log`:
 
 ```php
-$writer = $sm->get('ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar');
-$log = new \Zend\Log\Logger();
+$writer = $sm->get(ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class);
+$log = new Zend\Log\Logger();
 $log->addWriter($writer);
 $log->info('ZfSnapPhpDebugBar is awesome!');
 ```
