@@ -2,25 +2,31 @@
 
 namespace ZfSnapPhpDebugBar\Log\Writer;
 
+use DebugBar\DebugBar;
+use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * PhpDebugBarFactory
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
-class PhpDebugBarFactory implements FactoryInterface
+final class PhpDebugBarFactory implements FactoryInterface
 {
-
     /**
-     * @param ServiceLocatorInterface $serviceLocator
      * @return PhpDebugBar
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /* @var $debugbar \DebugBar\DebugBar */
-        $debugbar = $serviceLocator->get('debugbar');
+        return $this($serviceLocator, PhpDebugBar::class);
+    }
+
+    /**
+     * @return PhpDebugBar
+     */
+    public function __invoke(ContainerInterface $container, $requestedName, mixed $options = null)
+    {
+        /* @var $debugbar DebugBar */
+        $debugbar = $container->get('debugbar');
 
         $messagesCollector = $debugbar['messages'];
 

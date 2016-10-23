@@ -3,16 +3,23 @@
 namespace ZfSnapPhpDebugBar\Tests\Functional;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 
 /**
- * DummyController
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
 class DummyController extends AbstractActionController
 {
+
+    const EXCEPTION_MESSAGE = 'ExceptionMessage';
+
     public function indexAction()
     {
-        return $this->getResponse();
+        return (new ViewModel())->setTemplate('dummy/index');
+    }
+
+    public function errorAction()
+    {
+        throw new \Exception(self::EXCEPTION_MESSAGE);
     }
 }

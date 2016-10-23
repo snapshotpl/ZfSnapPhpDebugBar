@@ -1,10 +1,10 @@
 <?php
 
-return array(
-    'db' => array(
+return [
+    'db' => [
         'driver' => 'pdo',
         'dsn' => 'mysql:dbname=[...];host=[...];charset=utf8',
         'username' => '',
         'password' => '',
-    ),
-);
+    ],
+];

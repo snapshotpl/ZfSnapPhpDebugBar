@@ -2,12 +2,12 @@
 
 namespace ZfSnapPhpDebugBar\View\Helper;
 
-use Zend\View\Helper\AbstractHelper;
 use DebugBar\JavascriptRenderer;
+use Zend\View\Helper\AbstractHelper;
+use Zend\View\Helper\HeadLink;
+use Zend\View\Helper\HeadScript;
 
 /**
- * DebugBar
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
 class DebugBar extends AbstractHelper
@@ -38,7 +38,7 @@ class DebugBar extends AbstractHelper
     }
 
     /**
-     * @return Zend\View\Helper\HeadScript
+     * @return HeadScript
      */
     public function appendScripts()
     {
@@ -52,7 +52,7 @@ class DebugBar extends AbstractHelper
     }
 
     /**
-     * @return Zend\View\Helper\HeadLink
+     * @return HeadLink
      */
     public function appendStyles()
     {

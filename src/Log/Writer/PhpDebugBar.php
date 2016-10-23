@@ -6,21 +6,16 @@ use DebugBar\DataCollector\MessagesCollector;
 use Zend\Log\Writer\AbstractWriter;
 
 /**
- * PhpDebugBar
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
 class PhpDebugBar extends AbstractWriter
 {
-    /**
-     * @var MessagesCollector
-     */
     protected $messagesCollector;
+    private $priorityMap = [
+        'warn' => 'warning',
+        'err' => 'error',
+    ];
 
-    /**
-     *
-     * @param MessagesCollector $debugbar
-     */
     public function __construct(MessagesCollector $debugbar)
     {
         $this->messagesCollector = $debugbar;
@@ -42,14 +37,10 @@ class PhpDebugBar extends AbstractWriter
     protected function priorityMap($name)
     {
         $name = strtolower($name);
-        $map = array(
-            'warn' => 'warning',
-            'err' => 'error',
-        );
-        if (isset($map[$name])) {
-            $name = $map[$name];
+
+        if (isset($this->priorityMap[$name])) {
+            return $this->priorityMap[$name];
         }
         return $name;
     }
-
 }

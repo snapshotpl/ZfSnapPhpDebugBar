@@ -5,16 +5,14 @@ namespace ZfSnapPhpDebugBar\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 
 /**
- * Resources
- *
  * @author Witold Wasiczko <witold@wasiczko.pl>
  */
 class Resources extends AbstractActionController
 {
-    protected $extensionToContentTypeMap = array(
+    protected $extensionToContentTypeMap = [
         'css' => 'text/css; charset=UTF-8',
         'js' => 'text/javascript; charset=UTF-8',
-    );
+    ];
 
     public function indexAction()
     {

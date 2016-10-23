@@ -1,5 +1,7 @@
 <?php
 
+use ZfSnapPhpDebugBar\Module;
+
 if (!function_exists('debugbar_log')) {
     /**
      * @param string $message
@@ -7,6 +9,6 @@ if (!function_exists('debugbar_log')) {
      */
     function debugbar_log($message, $type = 'debug')
     {
-        \ZfSnapPhpDebugBar\Module::log($message, $type);
+        Module::log($message, $type);
     }
 }

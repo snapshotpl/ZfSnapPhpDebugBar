@@ -1,54 +1,64 @@
 <?php
 
-return array(
-    'php-debug-bar' => array(
-        'view' => array(
+return [
+    'php-debug-bar' => [
+        'view' => [
             'custom-style-path' => 'zf-snap-php-debug-bar.css',
-        ),
-        // Enables/disables PHP Debug Bar
+        ],
         'enabled' => true,
-
         'auto-append-assets' => true,
-
-        'zend-db-adapter-service-name' => 'Zend\Db\Adapter\Adapter',
-
-        // ServiceManager keys to inject collectors
+        'render-on-shutdown' => true,
+        'zend-db-adapter-service-name' => Zend\Db\Adapter\Adapter::class,
+        // ServiceManager service keys to inject collectors
         // http://phpdebugbar.com/docs/data-collectors.html
-        'collectors' => array(),
-
-        // ServiceManager key to inject storage
+        'collectors' => [],
+        // ServiceManager service key to inject storage
         // http://phpdebugbar.com/docs/storage.html
         'storage' => null,
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'ZfSnapPhpDebugBar\Controller\Resources' => 'ZfSnapPhpDebugBar\Controller\Resources',
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'phpdebugbar-resource' => array(
+    ],
+    'service_manager' => [
+        'invokables' => [
+            DebugBar\DebugBar::class => DebugBar\StandardDebugBar::class,
+        ],
+        'factories' => [
+            'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
+            ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
+        ],
+    ],
+    'controllers' => [
+        'invokables' => [
+            ZfSnapPhpDebugBar\Controller\Resources::class => ZfSnapPhpDebugBar\Controller\Resources::class,
+        ],
+    ],
+    'view_helpers' => [
+        'factories' => [
+            'debugbar' => ZfSnapPhpDebugBar\View\Helper\DebugBarFactory::class,
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'phpdebugbar-resource' => [
                 'type' => 'regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/DebugBar/Resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
                     'spec' => '/DebugBar/Resources/%resource%',
-                    'defaults' => array(
-                        'controller' => 'ZfSnapPhpDebugBar\Controller\Resources',
+                    'defaults' => [
+                        'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'index',
-                    ),
-                ),
-            ),
-            'phpdebugbar-custom-resource' => array(
+                    ],
+                ],
+            ],
+            'phpdebugbar-custom-resource' => [
                 'type' => 'regex',
-                'options' => array(
+                'options' => [
                     'regex' => '/ZfSnapPhpDebugBar/Resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
                     'spec' => '/ZfSnapPhpDebugBar/Resources/%resource%',
-                    'defaults' => array(
-                        'controller' => 'ZfSnapPhpDebugBar\Controller\Resources',
+                    'defaults' => [
+                        'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'custom',
-                    ),
-                ),
-            ),
-        ),
-    ),
-);
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
