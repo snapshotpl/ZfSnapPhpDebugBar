@@ -41,19 +41,19 @@
         "doctrine/doctrine-orm-module": "if you want to use Doctrine debug collector"
     },
     "autoload": {
-        "psr-0": {
-            "ZfSnapPhpDebugBar": "src/"
+        "psr-4": {
+            "ZfSnapPhpDebugBar\\": "src/"
         },
-        "classmap": [
-            "./Module.php"
-        ],
         "files": [
-            "src/ZfSnapPhpDebugBar/Functions.php"
+            "src/Functions.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "ZfSnapPhpDebugBar\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

@@ -12,6 +12,7 @@ class DebugBarTest extends AbstractHttpControllerTestCase
 
     protected function setUp()
     {
+        $this->traceError = false;
         $this->setApplicationConfig(include __DIR__ . '/../assets/application.config.php');
     }
 

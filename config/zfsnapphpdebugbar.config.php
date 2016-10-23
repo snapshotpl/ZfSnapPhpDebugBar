@@ -30,10 +30,6 @@ return [
                 ZfSnapPhpDebugBar\Delegator\DoctrineConfigurationDelegatorFactory::class,
             ],
         ],
-        'aliases' => [
-            'DebugBar' => 'debugbar',
-            'Debugbar' => 'debugbar',
-        ],
     ],
     'controllers' => [
         'invokables' => [
@@ -43,10 +39,6 @@ return [
     'view_helpers' => [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\View\Helper\DebugBarFactory::class,
-        ],
-        'aliases' => [
-            'DebugBar' => 'debugbar',
-            'Debugbar' => 'debugbar',
         ],
     ],
     'router' => [
