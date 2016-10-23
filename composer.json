@@ -41,16 +41,11 @@
         "psr-0": {
             "ZfSnapPhpDebugBar": "src/"
         },
-        "classmap": [
-            "./Module.php"
-        ],
         "files": [
             "src/ZfSnapPhpDebugBar/Functions.php"
         ]
     },
-    "autoload-dev": {
-        "psr-4": {
-            "ZfSnapPhpDebugBar\\Tests\\": "tests/"
-        }
+    "scripts": {
+        "test": "phpunit"
     }
 }
