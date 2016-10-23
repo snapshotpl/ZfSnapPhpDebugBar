@@ -23,6 +23,12 @@ return [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
             ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
+            DebugBar\Bridge\DoctrineCollector::class => ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory::class,
+        ],
+        'delegators' => [
+            'doctrine.configuration.orm_default' => [
+                ZfSnapPhpDebugBar\Delegator\DoctrineConfigurationDelegatorFactory::class,
+            ],
         ],
     ],
     'controllers' => [
