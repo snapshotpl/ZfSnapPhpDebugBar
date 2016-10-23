@@ -32,8 +32,9 @@ final class Module implements ConfigProviderInterface, Bootstrap
     {
         $baseConfig = include __DIR__ . '/../config/zfsnapphpdebugbar.config.php';
 
-        if (!class_exists(ServiceLocatorAwareInterface::class)) {
-            $baseConfig += include __DIR__ . '/../config/aliases.config.php';
+        if (!interface_exists(ServiceLocatorAwareInterface::class)) {
+            $zf3AliasesConfig = include __DIR__ . '/../config/aliases.config.php';
+            $baseConfig = array_merge_recursive($baseConfig, $zf3AliasesConfig);
         }
 
         return $baseConfig;
