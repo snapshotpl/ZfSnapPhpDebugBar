@@ -45,6 +45,11 @@
             "src/ZfSnapPhpDebugBar/Functions.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ZfSnapPhpDebugBar\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "test": "phpunit"
     }
