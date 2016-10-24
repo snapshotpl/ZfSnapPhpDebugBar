@@ -11,7 +11,9 @@ return [
         'zend-db-adapter-service-name' => Zend\Db\Adapter\Adapter::class,
         // ServiceManager service keys to inject collectors
         // http://phpdebugbar.com/docs/data-collectors.html
-        'collectors' => [],
+        'collectors' => [
+            DebugBar\Bridge\DoctrineCollector::class,
+        ],
         // ServiceManager service key to inject storage
         // http://phpdebugbar.com/docs/storage.html
         'storage' => null,
@@ -23,6 +25,12 @@ return [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
             ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
+            DebugBar\Bridge\DoctrineCollector::class => ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory::class,
+        ],
+        'delegators' => [
+            'doctrine.configuration.orm_default' => [
+                ZfSnapPhpDebugBar\Delegator\DoctrineConfigurationDelegatorFactory::class,
+            ],
         ],
     ],
     'controllers' => [
