@@ -4,7 +4,8 @@ namespace ZfSnapPhpDebugBar\Collector;
 
 use Interop\Container\ContainerInterface;
 use DebugBar\Bridge\DoctrineCollector;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class DoctrineCollectorFactory implements FactoryInterface
 {
@@ -12,5 +13,10 @@ class DoctrineCollectorFactory implements FactoryInterface
     {
         $debugStack = $container->get('doctrine.configuration.orm_default')->getSQLLogger();
         return new DoctrineCollector($debugStack);
+    }
+
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, DoctrineCollector::class);
     }
 }
