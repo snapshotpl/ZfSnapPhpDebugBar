@@ -9,7 +9,6 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
  */
 class DebugBarTest extends AbstractHttpControllerTestCase
 {
-
     protected function setUp()
     {
         $this->traceError = false;
@@ -64,6 +63,36 @@ class DebugBarTest extends AbstractHttpControllerTestCase
         $this->assertResponseStatusCode(500);
 
         $this->assertResponseContains(DummyController::EXCEPTION_MESSAGE);
+    }
+
+    public function testContainsUriToDebugBarResource()
+    {
+        $this->dispatch('/');
+
+        $this->assertResponseContains('/DebugBar/Resources/debugbar.js');
+    }
+
+    public function testContainsUriToCustomResource()
+    {
+        $this->dispatch('/');
+
+        $this->assertResponseContains('/zfsnapphpdebugbar/resources/zf-snap-php-debug-bar.css');
+    }
+
+    public function testGetStaticResourceFromDebugBar()
+    {
+        $this->dispatch('/DebugBar/Resources/debugbar.js');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertResponseHeaderContains('Content-Type', 'text/javascript; charset=UTF-8');
+    }
+
+    public function testGetStaticCustomResource()
+    {
+        $this->dispatch('/zfsnapphpdebugbar/resources/zf-snap-php-debug-bar.css');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertResponseHeaderContains('Content-Type', 'text/css; charset=UTF-8');
     }
 
     private function assertResponseContains($string)

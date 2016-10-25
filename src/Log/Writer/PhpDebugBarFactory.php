@@ -23,7 +23,7 @@ final class PhpDebugBarFactory implements FactoryInterface
     /**
      * @return PhpDebugBar
      */
-    public function __invoke(ContainerInterface $container, $requestedName, mixed $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /* @var $debugbar DebugBar */
         $debugbar = $container->get('debugbar');

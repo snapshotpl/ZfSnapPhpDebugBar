@@ -43,7 +43,6 @@ class RenderOnShutdownListener extends AbstractListenerAggregate
             return;
         }
 
-        $renderer = $debugbar->getJavascriptRenderer();
-        $renderer->renderOnShutdown(false);
+        $this->javascriptRenderer->renderOnShutdown(false);
     }
 }

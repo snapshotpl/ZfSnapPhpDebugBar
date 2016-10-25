@@ -14,14 +14,23 @@ class Resources extends AbstractActionController
         'js' => 'text/javascript; charset=UTF-8',
     ];
 
+    private $debugbarResourcesPath;
+    private $customResourcesPath;
+
+    public function __construct($debugbarResourcesPath, $customResourcesPath)
+    {
+        $this->debugbarResourcesPath = $debugbarResourcesPath;
+        $this->customResourcesPath = $customResourcesPath;
+    }
+
     public function indexAction()
     {
-        return $this->prepareAssetResponse(__DIR__.'/../../../../../maximebf/debugbar/src/DebugBar/Resources/');
+        return $this->prepareAssetResponse($this->debugbarResourcesPath);
     }
 
     public function customAction()
     {
-        return $this->prepareAssetResponse(__DIR__.'/../../../assets/');
+        return $this->prepareAssetResponse($this->customResourcesPath);
     }
 
     protected function prepareAssetResponse($path)
