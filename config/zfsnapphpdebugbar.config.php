@@ -54,7 +54,7 @@ return [
                 'type' => 'regex',
                 'options' => [
                     'regex' => '/zfsnapphpdebugbar/resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
-                    'spec' => '/zfsnaphhpdebugbar/resources/%resource%',
+                    'spec' => '/zfsnapphpdebugbar/resources/%resource%',
                     'defaults' => [
                         'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'custom',
