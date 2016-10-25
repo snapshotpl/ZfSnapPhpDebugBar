@@ -8,6 +8,9 @@ return [
     'php-debug-bar' => [
         'auto-append-assets' => true,
         'render-on-shutdown' => false,
+        'view' => [
+            'debugbar-resources' => __DIR__.'/../../vendor/maximebf/debugbar/src/DebugBar/Resources/',
+        ],
     ],
     'router' => [
         'routes' => [

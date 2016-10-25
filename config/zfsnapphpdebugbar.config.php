@@ -4,6 +4,8 @@ return [
     'php-debug-bar' => [
         'view' => [
             'custom-style-path' => 'zf-snap-php-debug-bar.css',
+            'debugbar-resources' => __DIR__.'/../../../maximebf/debugbar/src/DebugBar/Resources/',
+            'custom-resources' => __DIR__.'/../assets/',
         ],
         'enabled' => true,
         'auto-append-assets' => true,
@@ -26,8 +28,8 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            ZfSnapPhpDebugBar\Controller\Resources::class => ZfSnapPhpDebugBar\Controller\Resources::class,
+        'factories' => [
+            ZfSnapPhpDebugBar\Controller\Resources::class => ZfSnapPhpDebugBar\Controller\ResourcesFactory::class,
         ],
     ],
     'view_helpers' => [
@@ -40,8 +42,8 @@ return [
             'phpdebugbar-resource' => [
                 'type' => 'regex',
                 'options' => [
-                    'regex' => '/DebugBar/Resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
-                    'spec' => '/DebugBar/Resources/%resource%',
+                    'regex' => '/debugbar/resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
+                    'spec' => '/debugbar/resources/%resource%',
                     'defaults' => [
                         'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'index',
@@ -51,8 +53,8 @@ return [
             'phpdebugbar-custom-resource' => [
                 'type' => 'regex',
                 'options' => [
-                    'regex' => '/ZfSnapPhpDebugBar/Resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
-                    'spec' => '/ZfSnapPhpDebugBar/Resources/%resource%',
+                    'regex' => '/zfsnapphpdebugbar/resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
+                    'spec' => '/zfsnaphhpdebugbar/resources/%resource%',
                     'defaults' => [
                         'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'custom',

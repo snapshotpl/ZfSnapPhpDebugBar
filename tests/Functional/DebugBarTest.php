@@ -66,6 +66,22 @@ class DebugBarTest extends AbstractHttpControllerTestCase
         $this->assertResponseContains(DummyController::EXCEPTION_MESSAGE);
     }
 
+    public function testGetStaticResourceFromDebugBar()
+    {
+        $this->dispatch('/debugbar/resources/debugbar.js');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertResponseHeaderContains('Content-Type', 'text/javascript; charset=UTF-8');
+    }
+
+    public function testGetStaticCustomResource()
+    {
+        $this->dispatch('/zfsnapphpdebugbar/resources/zf-snap-php-debug-bar.css');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertResponseHeaderContains('Content-Type', 'text/css; charset=UTF-8');
+    }
+
     private function assertResponseContains($string)
     {
         $this->assertContains($string, $this->getResponse()->getContent());
