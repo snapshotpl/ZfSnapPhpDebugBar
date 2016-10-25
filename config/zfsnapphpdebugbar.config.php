@@ -42,8 +42,8 @@ return [
             'phpdebugbar-resource' => [
                 'type' => 'regex',
                 'options' => [
-                    'regex' => '/debugbar/resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
-                    'spec' => '/debugbar/resources/%resource%',
+                    'regex' => '/DebugBar/Resources/(?<resource>[a-zA-Z0-9_.\-/]+)',
+                    'spec' => '/DebugBar/Resources/%resource%',
                     'defaults' => [
                         'controller' => ZfSnapPhpDebugBar\Controller\Resources::class,
                         'action' => 'index',
