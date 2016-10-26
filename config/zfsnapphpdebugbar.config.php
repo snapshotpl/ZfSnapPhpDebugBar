@@ -26,8 +26,7 @@ return [
         'factories' => [
             'debugbar' => ZfSnapPhpDebugBar\Service\PhpDebugBarFactory::class,
             ZfSnapPhpDebugBar\Log\Writer\PhpDebugBar::class => ZfSnapPhpDebugBar\Log\Writer\PhpDebugBarFactory::class,
-            // uncomment if you use Doctrine ORM
-            //DebugBar\Bridge\DoctrineCollector::class => ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory::class,
+            DebugBar\Bridge\DoctrineCollector::class => ZfSnapPhpDebugBar\Collector\DoctrineCollectorFactory::class,
         ],
         'delegators' => [
             // uncomment if you use Doctrine ORM
