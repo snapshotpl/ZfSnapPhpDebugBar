@@ -22,4 +22,9 @@ class DummyController extends AbstractActionController
     {
         throw new \Exception(self::EXCEPTION_MESSAGE);
     }
+
+    public function partialAction()
+    {
+        return (new ViewModel)->setTemplate('dummy/index')->setTerminal(true);
+    }
 }
