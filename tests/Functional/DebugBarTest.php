@@ -95,8 +95,19 @@ class DebugBarTest extends AbstractHttpControllerTestCase
         $this->assertResponseHeaderContains('Content-Type', 'text/css; charset=UTF-8');
     }
 
+    public function testPartial()
+    {
+        $this->dispatch('/partial');
+        $this->assertNotResponseContains('var phpdebugbar = new PhpDebugBar.DebugBar();');
+    }
+
     private function assertResponseContains($string)
     {
         $this->assertContains($string, $this->getResponse()->getContent());
+    }
+
+    private function assertNotResponseContains($string)
+    {
+        $this->assertNotContains($string, $this->getResponse()->getContent());
     }
 }
