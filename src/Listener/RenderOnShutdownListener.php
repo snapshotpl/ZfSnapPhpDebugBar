@@ -34,7 +34,7 @@ class RenderOnShutdownListener extends AbstractListenerAggregate
     {
         $response = $event->getResponse();
 
-        if (!$response instanceof Response) {
+        if (!$response instanceof Response || $event->getViewModel()->terminate()) {
             return;
         }
         $contentTypeHeader = $response->getHeaders()->get('Content-type');
