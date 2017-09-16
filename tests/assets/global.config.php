@@ -24,6 +24,16 @@ return [
                     ],
                 ],
             ],
+            'home-partial' => [
+                'type' => 'literal',
+                'options' => [
+                    'route' => '/partial',
+                    'defaults' => [
+                        'controller' => ZfSnapPhpDebugBar\Tests\Functional\DummyController::class,
+                        'action' => 'partial',
+                    ],
+                ],
+            ],
             'error' => [
                 'type' => 'literal',
                 'options' => [

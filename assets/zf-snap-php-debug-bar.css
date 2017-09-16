@@ -58,6 +58,7 @@ div.phpdebugbar-closed {
     border-top: 0;
     right: 0;
     left: auto;
+    border-radius: 15px 0 0 0;
 }
 .phpdebugbar-fa.phpdebugbar-fa-search::after {
     content: " \203A";
